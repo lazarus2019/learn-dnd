@@ -1,4 +1,4 @@
 export const ROUTES = {
   root: '/',
-  tutorial: '/tutorial',
+  tutorial: '/tutorial'
 }
