@@ -6,6 +6,7 @@ import { PieceType } from '../model/enum'
 import { isEqualCoord } from '../model/helper'
 import type { Coord, PieceRecord } from '../types'
 import { Piece } from './piece'
+import { Square } from './square'
 
 const King = () => {
   return <Piece image={king} alt='King' />
@@ -31,18 +32,10 @@ const renderSquares = (pieces: PieceRecord[]) => {
         isEqualCoord(piece.location, squareCoord),
       )
 
-      const isDark = (row + col) % 2 === 1
-
       squares.push(
-        <div
-          className='w-full h-full flex items-center justify-center'
-          style={{
-            backgroundColor: isDark ? 'lightgray' : 'white',
-          }}
-          key={`chess-square-${row}-${col}`}
-        >
+        <Square location={[row, col]}>
           {piece && pieceLookup[piece.type]}
-        </div>,
+        </Square>,
       )
     }
   }
