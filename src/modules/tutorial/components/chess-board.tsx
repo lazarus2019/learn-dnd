@@ -8,17 +8,31 @@ import type { Coord, PieceRecord } from '../types'
 import { Piece } from './piece'
 import { Square } from './square'
 
-const King = () => {
-  return <Piece image={king} alt='King' />
+const King = ({ location }: { location: Coord }) => {
+  return (
+    <Piece
+      location={location}
+      pieceType={PieceType.KING}
+      image={king}
+      alt='King'
+    />
+  )
 }
 
-const Pawn = () => {
-  return <Piece image={pawn} alt='Pawn' />
+const Pawn = ({ location }: { location: Coord }) => {
+  return (
+    <Piece
+      location={location}
+      pieceType={PieceType.PAWN}
+      image={pawn}
+      alt='Pawn'
+    />
+  )
 }
 
-const pieceLookup: Record<PieceType, ReactElement> = {
-  [PieceType.KING]: <King />,
-  [PieceType.PAWN]: <Pawn />
+const pieceLookup: Record<PieceType, (location: Coord) => ReactElement> = {
+  [PieceType.KING]: (location) => <King location={location} />,
+  [PieceType.PAWN]: (location) => <Pawn location={location} />
 }
 
 const renderSquares = (pieces: PieceRecord[]) => {
@@ -33,8 +47,8 @@ const renderSquares = (pieces: PieceRecord[]) => {
       )
 
       squares.push(
-        <Square location={[row, col]}>
-          {piece && pieceLookup[piece.type]}
+        <Square pieces={pieces} location={[row, col]}>
+          {piece && pieceLookup[piece.type](piece.location)}
         </Square>
       )
     }
