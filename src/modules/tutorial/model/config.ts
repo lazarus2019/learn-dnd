@@ -1,7 +1,7 @@
 import type { PieceRecord } from '../types'
 import { PieceType } from './enum'
 
-export const pieces: PieceRecord[] = [
+export const initialPieces: PieceRecord[] = [
   {
     type: PieceType.KING,
     location: [3, 2]

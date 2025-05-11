@@ -23,12 +23,10 @@ export const Piece = ({ location, pieceType, image, alt }: PieceProps) => {
     return draggable({
       element,
       getInitialData: () => ({ location, pieceType }),
-      onDragStart: (args) => {
-        console.info('🚀 ~ draggable onDragStart ~ args:', args)
+      onDragStart: () => {
         setDragging(true)
       },
-      onDrop: (args) => {
-        console.info('🚀 ~ draggable onDrop ~ args:', args)
+      onDrop: () => {
         setDragging(false)
       }
     })
