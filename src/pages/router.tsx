@@ -11,6 +11,10 @@ const router = createBrowserRouter([
         index: true,
         lazy: () => import('@/pages/home'),
       },
+      {
+        path: ROUTES.tutorial,
+        lazy: () => import('@/pages/tutorial'),
+      },
     ],
   },
 ])
