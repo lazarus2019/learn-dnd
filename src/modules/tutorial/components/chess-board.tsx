@@ -18,7 +18,7 @@ const Pawn = () => {
 
 const pieceLookup: Record<PieceType, ReactElement> = {
   [PieceType.KING]: <King />,
-  [PieceType.PAWN]: <Pawn />,
+  [PieceType.PAWN]: <Pawn />
 }
 
 const renderSquares = (pieces: PieceRecord[]) => {
@@ -29,13 +29,13 @@ const renderSquares = (pieces: PieceRecord[]) => {
       const squareCoord: Coord = [row, col]
 
       const piece = pieces.find((piece) =>
-        isEqualCoord(piece.location, squareCoord),
+        isEqualCoord(piece.location, squareCoord)
       )
 
       squares.push(
         <Square location={[row, col]}>
           {piece && pieceLookup[piece.type]}
-        </Square>,
+        </Square>
       )
     }
   }

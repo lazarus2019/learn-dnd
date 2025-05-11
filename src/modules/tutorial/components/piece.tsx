@@ -19,11 +19,13 @@ export const Piece = ({ image, alt }: PieceProps) => {
     return draggable({
       element,
       onDragStart: (args) => {
+        console.info('🚀 ~ draggable onDragStart ~ args:', args)
         setDragging(true)
       },
       onDrop: (args) => {
+        console.info('🚀 ~ draggable onDrop ~ args:', args)
         setDragging(false)
-      },
+      }
     })
   }, [])
 

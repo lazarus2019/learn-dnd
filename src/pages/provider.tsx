@@ -10,9 +10,9 @@ const queryClient = new QueryClient({
     queries: {
       gcTime: CACHE_TIME,
       staleTime: STALE_TIME,
-      retry: 0,
-    },
-  },
+      retry: 0
+    }
+  }
 })
 
 export const AppProvider = ({ children }: PropsWithChildren) => {

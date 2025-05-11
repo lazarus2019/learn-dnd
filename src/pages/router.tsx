@@ -9,14 +9,14 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        lazy: () => import('@/pages/home'),
+        lazy: () => import('@/pages/home')
       },
       {
         path: ROUTES.tutorial,
-        lazy: () => import('@/pages/tutorial'),
-      },
-    ],
-  },
+        lazy: () => import('@/pages/tutorial')
+      }
+    ]
+  }
 ])
 
 export const RouterDOMProvider = () => {

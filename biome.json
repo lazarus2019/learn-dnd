@@ -16,7 +16,6 @@
   "organizeImports": { "enabled": true },
   "linter": {
     "enabled": true,
-    "ignore": ["**/*.test.*", "**/routes/_*.tsx"],
     "rules": {
       "recommended": true,
       "performance": {
@@ -37,7 +36,7 @@
     "formatter": {
       "jsxQuoteStyle": "single",
       "quoteProperties": "asNeeded",
-      "trailingCommas": "all",
+      "trailingCommas": "none",
       "semicolons": "asNeeded",
       "arrowParentheses": "always",
       "bracketSameLine": false,

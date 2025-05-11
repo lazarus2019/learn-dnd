@@ -8,5 +8,5 @@ import { AppProvider } from './pages/provider.tsx'
 createRoot(document.getElementById('root')!).render(
   <AppProvider>
     <App />
-  </AppProvider>,
+  </AppProvider>
 )

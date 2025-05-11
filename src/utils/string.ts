@@ -8,7 +8,7 @@
 
 export const replaceRouteParams = (
   route: string,
-  params: Record<string, string>,
+  params: Record<string, string>
 ): string => {
   return Object.keys(params).reduce((updatedRoute, paramKey) => {
     const regex = new RegExp(`:${paramKey}`, 'g')

@@ -26,17 +26,17 @@ export const Square = ({ location, children }: SquareProps) => {
     return dropTargetForElements({
       element,
       onDragEnter: (args) => {
-        console.info('🚀 ~ onDragEnter ~ args:', args)
+        console.info('🚀 ~ Square onDragEnter ~ args:', args)
         setIsDraggedOver(true)
       },
       onDragLeave: (args) => {
-        console.info('🚀 ~ onDragLeave ~ args:', args)
+        console.info('🚀 ~ Square onDragLeave ~ args:', args)
         setIsDraggedOver(false)
       },
       onDrop: (args) => {
-        console.info('🚀 ~ onDrop ~ args:', args)
+        console.info('🚀 ~ Square onDrop ~ args:', args)
         setIsDraggedOver(false)
-      },
+      }
     })
   }, [])
 
@@ -45,7 +45,7 @@ export const Square = ({ location, children }: SquareProps) => {
       ref={squareRef}
       className='w-full h-full flex items-center justify-center'
       style={{
-        backgroundColor: getColor(isDraggedOver, isDark),
+        backgroundColor: getColor(isDraggedOver, isDark)
       }}
     >
       {children}
