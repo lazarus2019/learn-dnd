@@ -1,20 +1,30 @@
 import invariant from '@/utils/tiny-invariant'
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { type PropsWithChildren, useEffect, useRef, useState } from 'react'
-import type { Coord } from '../types'
+import { canMove, isCoord, isEqualCoord, isPieceType } from '../model/helper'
+import type { Coord, PieceRecord } from '../types'
 
-const getColor = (isDraggedOver: boolean, isDark: boolean): string => {
-  if (isDraggedOver) return 'skyblue'
+type HoveredState = 'idle' | 'validMove' | 'invalidMove'
+
+const getColor = (state: HoveredState, isDark: boolean): string => {
+  if (state === 'validMove') {
+    return 'lightgreen'
+  }
+
+  if (state === 'invalidMove') {
+    return 'pink'
+  }
 
   return isDark ? 'lightgray' : 'white'
 }
 
 interface SquareProps extends PropsWithChildren {
   location: Coord
+  pieces: PieceRecord[]
 }
 
-export const Square = ({ location, children }: SquareProps) => {
-  const [isDraggedOver, setIsDraggedOver] = useState(false)
+export const Square = ({ location, children, pieces }: SquareProps) => {
+  const [state, setState] = useState<HoveredState>('idle')
   const squareRef = useRef(null)
 
   const isDark = (location[0] + location[1]) % 2 === 1
@@ -25,27 +35,40 @@ export const Square = ({ location, children }: SquareProps) => {
 
     return dropTargetForElements({
       element,
-      onDragEnter: (args) => {
-        console.info('🚀 ~ Square onDragEnter ~ args:', args)
-        setIsDraggedOver(true)
+      getData: () => ({ location }),
+      onDragEnter: ({ source }) => {
+        // source is the piece begin dragged over the drop target
+        if (
+          // type guards
+          !isCoord(source.data.location) ||
+          !isPieceType(source.data.pieceType)
+        )
+          return
+
+        if (
+          canMove(source.data.location, location, source.data.pieceType, pieces)
+        ) {
+          setState('validMove')
+        } else {
+          setState('invalidMove')
+        }
       },
-      onDragLeave: (args) => {
-        console.info('🚀 ~ Square onDragLeave ~ args:', args)
-        setIsDraggedOver(false)
+      canDrop: ({ source }) => {
+        if (!isCoord(source.data.location)) return false
+
+        return !isEqualCoord(source.data.location, location)
       },
-      onDrop: (args) => {
-        console.info('🚀 ~ Square onDrop ~ args:', args)
-        setIsDraggedOver(false)
-      }
+      onDragLeave: () => setState('idle'),
+      onDrop: () => setState('idle')
     })
-  }, [])
+  }, [location, pieces])
 
   return (
     <div
       ref={squareRef}
       className='w-full h-full flex items-center justify-center'
       style={{
-        backgroundColor: getColor(isDraggedOver, isDark)
+        backgroundColor: getColor(state, isDark)
       }}
     >
       {children}

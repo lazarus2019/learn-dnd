@@ -2,13 +2,17 @@ import invariant from '@/utils/tiny-invariant'
 // import invariant from 'tiny-invariant';
 import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { useEffect, useRef, useState } from 'react'
+import type { PieceType } from '../model/enum'
+import type { Coord } from '../types'
 
 interface PieceProps {
   image: string
   alt: string
+  location: Coord
+  pieceType: PieceType
 }
 
-export const Piece = ({ image, alt }: PieceProps) => {
+export const Piece = ({ location, pieceType, image, alt }: PieceProps) => {
   const [dragging, setDragging] = useState(false)
   const pieceRef = useRef(null)
 
@@ -18,6 +22,7 @@ export const Piece = ({ image, alt }: PieceProps) => {
 
     return draggable({
       element,
+      getInitialData: () => ({ location, pieceType }),
       onDragStart: (args) => {
         console.info('🚀 ~ draggable onDragStart ~ args:', args)
         setDragging(true)
@@ -27,7 +32,7 @@ export const Piece = ({ image, alt }: PieceProps) => {
         setDragging(false)
       }
     })
-  }, [])
+  }, [location, pieceType])
 
   return (
     <img
