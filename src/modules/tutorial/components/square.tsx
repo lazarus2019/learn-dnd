@@ -35,8 +35,9 @@ export const Square = ({ location, children, pieces }: SquareProps) => {
 
     return dropTargetForElements({
       element,
-      getData: () => ({ location }),
-      onDragEnter: ({ source }) => {
+      getData: () => ({ location }), // data location onDrag itself, data location for monitorForElements
+      onDragEnter: ({ source, location: locationP }) => {
+        console.info(source, locationP)
         // source is the piece begin dragged over the drop target
         if (
           // type guards

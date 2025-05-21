@@ -8,6 +8,14 @@ export const initialPieces: PieceRecord[] = [
   },
   {
     type: PieceType.PAWN,
-    location: [1, 6]
+    location: [2, 0]
+  },
+  {
+    type: PieceType.CEH,
+    location: [1, 3]
+  },
+  {
+    type: PieceType.PENGUIN,
+    location: [4, 6]
   }
 ]

@@ -22,7 +22,7 @@ export const Piece = ({ location, pieceType, image, alt }: PieceProps) => {
 
     return draggable({
       element,
-      getInitialData: () => ({ location, pieceType }),
+      getInitialData: () => ({ location, pieceType }), // data source for dropTargetForElements
       onDragStart: () => {
         setDragging(true)
       },

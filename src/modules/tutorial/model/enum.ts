@@ -1,4 +1,6 @@
 export enum PieceType {
   KING = 'king',
-  PAWN = 'pawn'
+  PAWN = 'pawn',
+  PENGUIN = 'penguin',
+  CEH = 'ceh'
 }

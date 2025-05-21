@@ -13,7 +13,12 @@ export const isCoord = (token: unknown): token is Coord => {
   )
 }
 
-const pieceTypes: PieceType[] = [PieceType.KING, PieceType.PAWN]
+const pieceTypes: PieceType[] = [
+  PieceType.KING,
+  PieceType.PAWN,
+  PieceType.CEH,
+  PieceType.PENGUIN
+]
 
 export const isPieceType = (value: unknown): value is PieceType => {
   return typeof value === 'string' && pieceTypes.includes(value as PieceType)
@@ -29,13 +34,18 @@ export const canMove = (
   const colDist = Math.abs(start[1] - destination[1])
 
   if (pieces.find((piece) => isEqualCoord(piece.location, destination)))
-    return false
+    return true
 
   switch (pieceType) {
     case PieceType.KING:
       // Allow king go around 1 step
       return [0, 1].includes(rowDist) && [0, 1].includes(colDist)
     case PieceType.PAWN:
+      // Allow pawn go straight forward 1 step
+      return colDist === 0 && start[0] - destination[0] === -1
+    case PieceType.PENGUIN:
+      return colDist === rowDist && colDist <= 2
+    case PieceType.CEH:
       // Allow pawn go straight forward 1 step
       return colDist === 0 && start[0] - destination[0] === -1
     default:

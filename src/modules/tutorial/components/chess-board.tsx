@@ -1,5 +1,7 @@
+import ceh from '@/assets/ceh.png'
 import king from '@/assets/king.png'
 import pawn from '@/assets/pawn.png'
+import penguin from '@/assets/penguin.png'
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { type ReactElement, useEffect, useState } from 'react'
 import { initialPieces } from '../model/config'
@@ -31,9 +33,33 @@ const Pawn = ({ location }: { location: Coord }) => {
   )
 }
 
+const Penguin = ({ location }: { location: Coord }) => {
+  return (
+    <Piece
+      location={location}
+      pieceType={PieceType.PENGUIN}
+      image={penguin}
+      alt='Penguin'
+    />
+  )
+}
+
+const Ceh = ({ location }: { location: Coord }) => {
+  return (
+    <Piece
+      location={location}
+      pieceType={PieceType.CEH}
+      image={ceh}
+      alt='Ceh'
+    />
+  )
+}
+
 const pieceLookup: Record<PieceType, (location: Coord) => ReactElement> = {
   [PieceType.KING]: (location) => <King location={location} />,
-  [PieceType.PAWN]: (location) => <Pawn location={location} />
+  [PieceType.PAWN]: (location) => <Pawn location={location} />,
+  [PieceType.CEH]: (location) => <Ceh location={location} />,
+  [PieceType.PENGUIN]: (location) => <Penguin location={location} />
 }
 
 const renderSquares = (pieces: PieceRecord[]) => {
@@ -48,7 +74,11 @@ const renderSquares = (pieces: PieceRecord[]) => {
       )
 
       squares.push(
-        <Square pieces={pieces} location={[row, col]}>
+        <Square
+          key={`square-${row}-${col}`}
+          pieces={pieces}
+          location={[row, col]}
+        >
           {piece && pieceLookup[piece.type](piece.location)}
         </Square>
       )
@@ -64,6 +94,7 @@ export const ChessBoard = () => {
   useEffect(() => {
     return monitorForElements({
       onDrop: ({ source, location }) => {
+        console.info('monitorForElements', source, location)
         const destination = location.current.dropTargets[0]
 
         if (!destination) return // dropped outside of any drop targets
@@ -86,9 +117,16 @@ export const ChessBoard = () => {
 
         if (!piece) return
 
-        const restOfPieces = pieces.filter((p) => p !== piece)
-
         if (canMove(sourceLocation, destinationLocation, pieceType, pieces)) {
+          // handle remove other piece when place on them
+          const restOfPieces = pieces.filter((p) => p !== piece)
+
+          const lostPieceIndex = restOfPieces.findIndex((p) =>
+            isEqualCoord(p.location, destinationLocation)
+          )
+
+          if (lostPieceIndex !== -1) restOfPieces.splice(lostPieceIndex, 1)
+
           // moving the piece
           setPieces([
             {
